@@ -12,10 +12,9 @@
 // Cấu hình SMTP Gmail
 define('MAIL_HOST', 'smtp.gmail.com');
 define('MAIL_PORT', 587); // 587 cho TLS, 465 cho SSL
-define('MAIL_USERNAME', 'thanhcong7102004@gmail.com'); // Email Gmail của bạn
-define('MAIL_PASSWORD', 'fsmw raex iyot wroi
-'); // App Password từ Gmail (16 ký tự)
-define('MAIL_FROM_EMAIL', 'thanhcong7102004@gmail.com'); // Email hiển thị cho người nhận
+define('MAIL_USERNAME', 'gmail'); // Email Gmail của bạn
+define('MAIL_PASSWORD', 'pass code app'); // App Password từ Gmail (16 ký tự)
+define('MAIL_FROM_EMAIL', 'gmail'); // Email hiển thị cho người nhận
 define('MAIL_FROM_NAME', 'Pet Shop'); // Tên hiển thị
 
 // Hoặc dùng SMTP khác (Mailtrap, SendGrid, etc.)
