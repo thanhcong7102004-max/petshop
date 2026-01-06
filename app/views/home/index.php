@@ -90,14 +90,13 @@
                 <?php if (!empty($categories)): ?>
                     <?php 
                     $categoryIcons = [
-                        'Hoa Cưới' => '🐶',
-                        'Hoa Sinh Nhật' => '🐱',
-                        'Hoa Chúc Mừng' => '🦜',
-                        'Hoa Tình Yêu' => '🐰',
-                        'Hoa Chia Buồn' => '🐁',
-                        'Hoa Văn Phòng' => '🦺',
+                        'Chó Cảnh' => '🐶',
+                        'Mèo Cảnh' => '🐱',
+                        'Chuột Hamster' => '🐹',
+                        'Thú Cưng Khác' => '🐰',
+                        'Thức Ăn & Phụ Kiện' => '🍖',
                     ];
-                    foreach (array_slice($categories, 0, 4) as $category): 
+                    foreach (array_slice($categories, 0, 5) as $category): 
                         $icon = $categoryIcons[$category['name']] ?? '🐾';
                         $productCount = $category['product_count'] ?? 0;
                     ?>

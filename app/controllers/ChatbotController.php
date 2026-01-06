@@ -234,32 +234,32 @@ class ChatbotController extends Controller {
      * Build system prompt với toàn bộ thông tin
      */
     private function buildSystemPrompt($contextData) {
-        $prompt = "Bạn là AI của Flower Shop - shop hoa tươi Việt Nam.\n\n";
+        $prompt = "Bạn là AI của Pet Shop - cửa hàng thú cưng và phụ kiện uy tín tại Việt Nam.\n\n";
         
         $prompt .= "🏪 THÔNG TIN SHOP:\n";
-        $prompt .= "• Tên: Flower Shop\n";
-        $prompt .= "• Giờ: 8:00-22:00 hàng ngày\n";
-        $prompt .= "• Địa chỉ: 123 ABC, Q1, HCM\n";
+        $prompt .= "• Tên: Pet Shop\n";
+        $prompt .= "• Giờ mở cửa: 8:00 - 22:00 hàng ngày\n";
+        $prompt .= "• Địa chỉ: 123 Đường Thú Cưng, Quận 1, TP.HCM\n";
         $prompt .= "• Hotline: 1900 1234\n\n";
         
-        $prompt .= "🚚 GIAO HÀNG:\n";
-        $prompt .= "• Nội thành: 2-4h (30k, FREE từ 500k)\n";
-        $prompt .= "• Tỉnh: 1-3 ngày\n\n";
+        $prompt .= "🚚 GIAO HÀNG & VẬN CHUYỂN:\n";
+        $prompt .= "• Nội thành: Giao nhanh 2h (Phí 30k, MIỄN PHÍ từ 500k)\n";
+        $prompt .= "• Các tỉnh: Giao hỏa tốc 1-2 ngày bằng xe khách hoặc máy bay\n\n";
         
-        $prompt .= "💳 THANH TOÁN: COD, VNPay, Chuyển khoản\n\n";
+        $prompt .= "💳 THANH TOÁN: COD, VNPay, Chuyển khoản ngân hàng\n\n";
         
-        $prompt .= "🔄 ĐỔI TRẢ:\n";
-        $prompt .= "• Đổi trong 24h nếu không đúng mô tả\n";
-        $prompt .= "• Bảo hành hoa 3 ngày\n";
-        $prompt .= "• Hoàn tiền nếu giao muộn >2h\n\n";
+        $prompt .= "🔄 CHÍNH SÁCH BẢO HÀNH:\n";
+        $prompt .= "• Bảo hành sức khỏe thú cưng 15 ngày đối với các bệnh đã tiêm phòng\n";
+        $prompt .= "• Đổi trả phụ kiện trong 7 ngày nếu lỗi nhà sản xuất\n";
+        $prompt .= "• Hoàn tiền 100% nếu phát hiện thú cưng không thuần chủng như cam kết\n\n";
         
-        $prompt .= "📦 CÁCH ĐẶT: Chọn hoa → Giỏ → Điền thông tin → Thanh toán → Nhận mã DH\n\n";
+        $prompt .= "📦 CÁCH ĐẶT HÀNG: Chọn thú cưng/phụ kiện → Giỏ hàng → Điền thông tin giao hàng → Chọn thanh toán → Nhận mã đơn hàng\n\n";
         
-        $prompt .= "🌸 CHĂM SÓC HOA:\n";
-        $prompt .= "• Thay nước 2 ngày/lần\n";
-        $prompt .= "• Cắt chéo cuống\n";
-        $prompt .= "• Tránh nắng trực tiếp\n";
-        $prompt .= "• Nhiệt độ 18-22°C\n\n";
+        $prompt .= "🐾 CHĂM SÓC THÚ CƯNG:\n";
+        $prompt .= "• Chế độ ăn: Đúng theo lứa tuổi và giống loại\n";
+        $prompt .= "• Vệ sinh: Tắm sấy định kỳ, vệ sinh tai và cắt móng\n";
+        $prompt .= "• Tiêm chủng: Đảm bảo đầy đủ các mũi theo lịch hẹn của bác sĩ thú y\n";
+        $prompt .= "• Môi trường: Sạch sẽ, thoáng mát, đủ không gian vận động\n\n";
         
         // Thêm thông tin đơn hàng (nếu tra cứu)
         if (isset($contextData['order_not_found']) && $contextData['order_not_found']) {
@@ -294,7 +294,7 @@ class ChatbotController extends Controller {
         
         // Thêm sản phẩm
         if (isset($contextData['products'])) {
-            $prompt .= "📋 SẢN PHẨM:\n";
+            $prompt .= "📋 DANH SÁCH SẢN PHẨM & THÚ CƯNG:\n";
             foreach ($contextData['products'] as $i => $p) {
                 $finalPrice = $p['final_price'] ?? $p['price'];
                 $prompt .= ($i+1) . ". {$p['name']} - " . number_format($finalPrice) . "đ";
@@ -382,16 +382,15 @@ class ChatbotController extends Controller {
         
         // Quy tắc
         $prompt .= "⚠️ QUY TẮC TRẢ LỜI:\n";
-        $prompt .= "✓ Gọi ĐÚNG TÊN + GIÁ sản phẩm từ danh sách\n";
-        $prompt .= "✓ Gợi ý 2-3 sản phẩm CỤ THỂ khi khách hỏi\n";
+        $prompt .= "✓ Gọi đúng tên thú cưng/phụ kiện + GIÁ sản phẩm từ danh sách\n";
+        $prompt .= "✓ Gợi ý 2-3 sản phẩm cụ thể khi khách hỏi tìm mua mèo, chó, thức ăn...\n";
         $prompt .= "✓ Phân biệt rõ:\n";
         $prompt .= "  • PROMOTION = Giảm giá TỰ ĐỘNG (không cần nhập mã)\n";
         $prompt .= "  • COUPON = Mã giảm giá (nhập khi thanh toán)\n";
-        $prompt .= "✓ Khi khách hỏi 'khuyến mãi/chương trình' → trả lời PROMOTION\n";
-        $prompt .= "✓ Khi khách hỏi 'mã giảm giá/coupon' → trả lời COUPON\n";
-        $prompt .= "✓ Dùng emoji, thân thiện, ngắn gọn\n";
+        $prompt .= "✓ Tư vấn nhiệt tình về cách chăm sóc thú cưng\n";
+        $prompt .= "✓ Dùng emoji sinh động (🐾, 🐶, 🐱, 🍗), thân thiện, ngắn gọn\n";
         $prompt .= "✗ KHÔNG trả lời chung chung\n";
-        $prompt .= "✗ KHÔNG bịa giá\n\n";
+        $prompt .= "✗ KHÔNG bịa giá sản phẩm\n\n";
         
         return $prompt;
     }
@@ -428,23 +427,23 @@ class ChatbotController extends Controller {
         $responses = [
             [
                 'keywords' => ['chao', 'hello', 'hi'],
-                'replies' => ["Xin chào! 🌸 Tôi là trợ lý Flower Shop.\n\nTôi có thể giúp bạn:\n• Gợi ý sản phẩm\n• Tra cứu đơn hàng\n• Thông tin giao hàng\n• Mã giảm giá\n\nBạn cần gì ạ?"]
+                'replies' => ["Xin chào! 🐾 Tôi là trợ lý Pet Shop.\n\nTôi có thể giúp bạn:\n• Gợi ý thú cưng/phụ kiện\n• Tra cứu đơn hàng\n• Thông tin giao nhận\n• Mã giảm giá\n\nBạn cần hỗ trợ gì ạ?"]
             ],
             [
                 'keywords' => ['gio', 'mo cua'],
-                'replies' => ['Shop mở cửa 8:00 - 22:00 hàng ngày! Đặt online 24/7 🕐']
+                'replies' => ['Shop mở cửa đón khách từ 8:00 - 22:00 hàng ngày! Bạn có thể đặt hàng online 24/7 🐾']
             ],
             [
                 'keywords' => ['giao hang', 'ship'],
-                'replies' => ["🚚 GIAO HÀNG:\n• Nội thành: 2-4h\n• Tỉnh: 1-3 ngày\n• Phí: 30k (FREE từ 500k)"]
+                'replies' => ["🚚 GIAO HÀNG:\n• Nội thành: Giao nhanh 2h\n• Các tỉnh: 1-2 ngày\n• Phí: 30k (FREE từ 500k)"]
             ],
             [
                 'keywords' => ['gia', 'bao nhieu'],
-                'replies' => ["💐 Giá hoa:\n• Hoa bó: 150k-500k\n• Hoa giỏ: 300k-800k\n• Hoa hộp: 400k-1.2tr\n• Premium: 1tr-2tr\n\nXem chi tiết tại Sản phẩm!"]
+                'replies' => ["🐾 Báo giá tham khảo:\n• Chó cảnh: 3tr - 10tr+\n• Mèo cảnh: 2tr - 8tr+\n• Hamster: 100k - 300k\n• Thức ăn: 100k - 500k\n\nXem chi tiết tại mục Sản phẩm!"]
             ],
             [
                 'keywords' => ['thanh toan'],
-                'replies' => ["💳 Thanh toán:\n• COD (Ship COD)\n• VNPay (Visa/ATM)\n• Chuyển khoản\n\nAn toàn 100%!"]
+                'replies' => ["💳 Thanh toán linh hoạt:\n• COD (Nhận hàng trả tiền)\n• VNPay (Quét mã/ATM/Visa)\n• Chuyển khoản\n\nAn toàn và bảo mật!"]
             ]
         ];
         
@@ -456,7 +455,7 @@ class ChatbotController extends Controller {
             }
         }
         
-        return "Xin lỗi, tôi chưa hiểu câu hỏi. 😊\n\nBạn có thể hỏi về:\n• ⏰ Giờ mở cửa\n• 🚚 Giao hàng\n• 💰 Giá cả\n• 💳 Thanh toán\n• 🌸 Gợi ý hoa\n\nHoặc gọi 1900 1234!";
+        return "Xin lỗi, tôi chưa hiểu ý bạn. 😊\n\nBạn có thể hỏi về:\n• ⏰ Giờ mở cửa\n• 🚚 Giao nhận\n• 💰 Giá thú cưng\n• 💳 Thanh toán\n• 🐾 Gợi ý chọn bé\n\nHoặc gọi hotline 1900 1234!";
     }
     
     private function removeAccents($str) {
@@ -488,7 +487,7 @@ class ChatbotController extends Controller {
                 'Giờ mở cửa?',
                 'Giao hàng mất bao lâu?',
                 'Có khuyến mãi gì?',
-                'Gợi ý hoa sinh nhật',
+                'Gợi ý thú cưng cảnh',
                 'Cách đặt hàng?'
             ]
         ]);
