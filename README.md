@@ -178,9 +178,10 @@ Dự án này được cấp phép dưới giấy phép [Chỉ định license c
 
 ## 👨‍💻 Tác Giả
 
-Phát triển bởi [Tên của bạn]
+Phát triển bởi [Nguyễn Thành]
 
 ---
 
 **Cập nhật lần cuối**: December 25, 2025
 #
+
